@@ -1,4 +1,5 @@
 const taskService = require('../services/taskService');
+const { getAllTasks } = require('../model/task');
 
 const taskController = {};
 
@@ -44,5 +45,20 @@ taskController.serviceCommunicate = (req, res) => {
         });
     }
 }
+
+
+taskController.getTasks = (req, res) => {
+    try {
+        const tasks = getAllTasks();
+        return res.status(200).json(tasks);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
+};
+
 
 module.exports = taskController;

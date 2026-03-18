@@ -1,4 +1,5 @@
 const { Kafka } = require('kafkajs');
+const { createTask } = require('../model/task');
 
 const kafka = new Kafka({
     clientId: 'task-service',
@@ -14,7 +15,14 @@ const connectConsumer = async () => {
     await consumer.run({
         eachMessage: async ({ message }) => {
             const data = JSON.parse(message.value.toString())
-            console.log(data);
+            console.log(data)
+
+        const task = {
+            title: "welcome task",
+            userId: data.data.userId  
+        }
+
+            createTask(task)
         }
     });
 };
